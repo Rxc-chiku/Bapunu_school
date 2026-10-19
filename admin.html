@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SchoolTrack Admin — Green Valley High School</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="logo-mark">🎓</div>
+        <div class="brand-text">
+          <strong>SchoolTrack</strong>
+          <span>Admin Panel</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-item" data-view="students">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Students
+        </button>
+        <button class="nav-item" data-view="teachers">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Teachers
+        </button>
+        <button class="nav-item" data-view="attendance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
+          Attendance
+        </button>
+        <button class="nav-item" data-view="exams">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Exams
+        </button>
+        <button class="nav-item" data-view="fees">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Fees
+        </button>
+        <button class="nav-item" data-view="transport">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="15" height="12" rx="1"/><path d="M16 10h4l3 4v4h-7V10z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>
+          Transport
+        </button>
+        <button class="nav-item" data-view="notices">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Notices
+        </button>
+        <button class="nav-item" data-view="reports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Reports
+        </button>
+        <button class="nav-item" data-view="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          Settings
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logoutBtn">← Sign Out</button>
+      </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+          <div class="school-name">
+            Green Valley High School
+            <small>Session 2025–26 · Admin Dashboard</small>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="search" id="globalSearch" placeholder="Search students..." />
+          </div>
+          <div class="user-chip">
+            <div class="avatar">AD</div>
+            <div class="meta">
+              <strong>Admin</strong>
+              <span>Principal Office</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- DASHBOARD -->
+        <section class="view active" id="view-dashboard">
+          <div class="page-header">
+            <div>
+              <h1>Dashboard</h1>
+              <p>Overview of school operations today</p>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div>
+                <div class="label">Total Students</div>
+                <div class="value">420</div>
+                <div class="sub up">↑ 12 this month</div>
+              </div>
+              <div class="stat-icon blue">👨‍🎓</div>
+            </div>
+            <div class="stat-card">
+              <div>
+                <div class="label">Present Today</div>
+                <div class="value">382</div>
+                <div class="sub up">91% attendance</div>
+              </div>
+              <div class="stat-icon green">✅</div>
+            </div>
+            <div class="stat-card">
+              <div>
+                <div class="label">Pending Fees</div>
+                <div class="value">₹ 2.5L</div>
+                <div class="sub down">32 accounts due</div>
+              </div>
+              <div class="stat-icon orange">💰</div>
+            </div>
+            <div class="stat-card">
+              <div>
+                <div class="label">Active Buses</div>
+                <div class="value">5</div>
+                <div class="sub muted">All routes live</div>
+              </div>
+              <div class="stat-icon blue">🚌</div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel-title">Attendance Overview</div>
+              <div class="chart-wrap" style="height:200px">
+                <canvas id="attChart"></canvas>
+                <div class="chart-center-label">
+                  <strong>91%</strong>
+                  <span>Present</span>
+                </div>
+              </div>
+              <div class="legend" id="attLegend"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-title">Class-wise Performance</div>
+              <div class="chart-wrap tall">
+                <canvas id="perfChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="panel">
+              <div class="panel-title">Fee Collection</div>
+              <div class="chart-wrap" style="height:160px">
+                <canvas id="feeChart"></canvas>
+                <div class="chart-center-label">
+                  <strong>68%</strong>
+                  <span>Collected</span>
+                </div>
+              </div>
+              <div class="fee-figures">
+                <div>
+                  <strong id="feeCollected">₹ 8,40,000</strong>
+                  <span>Collected</span>
+                </div>
+                <div>
+                  <strong id="feePending">₹ 2,50,000</strong>
+                  <span>Pending</span>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-title">Recent Notices</div>
+              <ul class="notice-list" id="dashNotices"></ul>
+            </div>
+            <div class="panel">
+              <div class="panel-title">Live Bus Tracking</div>
+              <div class="bus-map">
+                <div class="bus-route"></div>
+                <div class="bus-pin">🚌</div>
+              </div>
+              <div class="bus-info">
+                <div>
+                  <strong>Bus 3</strong>
+                  <div class="meta" style="font-size:0.78rem;color:var(--text-muted)">Lake View Route · Arriving in 5 min</div>
+                </div>
+                <span class="tag tag-green">On Route</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:16px">
+            <div class="panel-title">Recent Activities</div>
+            <ul class="activity-list" id="dashActivities"></ul>
+          </div>
+        </section>
+
+        <!-- STUDENTS -->
+        <section class="view" id="view-students">
+          <div class="page-header">
+            <div>
+              <h1>Students</h1>
+              <p>Manage student records and profiles</p>
+            </div>
+            <button class="btn btn-primary" id="addStudentBtn">+ Add Student</button>
+          </div>
+          <div class="panel">
+            <div class="toolbar">
+              <select class="form-control" id="filterClass">
+                <option value="">All Classes</option>
+              </select>
+              <input type="search" class="form-control" id="studentSearch" placeholder="Search by name or ID..." />
+              <div class="spacer"></div>
+              <span class="tag tag-blue" id="studentCount"></span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>ID</th>
+                    <th>Class</th>
+                    <th>Parent</th>
+                    <th>Attendance</th>
+                    <th>Avg Marks</th>
+                    <th>Fee Due</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="studentsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- TEACHERS -->
+        <section class="view" id="view-teachers">
+          <div class="page-header">
+            <div>
+              <h1>Teachers</h1>
+              <p>Faculty directory and class assignments</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Teacher</th>
+                    <th>Subject</th>
+                    <th>Classes</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Experience</th>
+                  </tr>
+                </thead>
+                <tbody id="teachersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ATTENDANCE -->
+        <section class="view" id="view-attendance">
+          <div class="page-header">
+            <div>
+              <h1>Attendance</h1>
+              <p>Daily attendance by class</p>
+            </div>
+          </div>
+          <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+            <div class="stat-card"><div><div class="label">Present</div><div class="value" style="color:var(--success)">382</div></div><div class="stat-icon green">✅</div></div>
+            <div class="stat-card"><div><div class="label">Absent</div><div class="value" style="color:var(--danger)">28</div></div><div class="stat-icon red">❌</div></div>
+            <div class="stat-card"><div><div class="label">Late</div><div class="value" style="color:var(--warning)">10</div></div><div class="stat-icon orange">⏰</div></div>
+          </div>
+          <div class="panel">
+            <div class="toolbar">
+              <select class="form-control" id="attClassFilter">
+                <option value="5A">Class 5A</option>
+                <option value="8B">Class 8B</option>
+                <option value="10A">Class 10A</option>
+              </select>
+              <span class="tag tag-gray" id="attDateLabel"></span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Roll</th><th>Student</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                <tbody id="attendanceTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXAMS -->
+        <section class="view" id="view-exams">
+          <div class="page-header">
+            <div>
+              <h1>Exams & Results</h1>
+              <p>Class performance and subject-wise marks</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel-title">Sample Result — Aarav Sharma (5A)</div>
+              <div class="chart-wrap" style="height:180px">
+                <canvas id="examDonut"></canvas>
+                <div class="chart-center-label">
+                  <strong>82%</strong>
+                  <span>Overall</span>
+                </div>
+              </div>
+              <div id="subjectMarks" style="margin-top:12px"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-title">Class Average Comparison</div>
+              <div class="chart-wrap tall">
+                <canvas id="examBar"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="panel" style="margin-top:16px">
+            <div class="panel-title">All Students — Average Marks</div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Student</th><th>Class</th><th>Avg Marks</th><th>Grade</th><th>Performance</th></tr>
+                </thead>
+                <tbody id="examTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEES -->
+        <section class="view" id="view-fees">
+          <div class="page-header">
+            <div>
+              <h1>Fees</h1>
+              <p>Fee structure and pending collections</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel-title">Fee Structure (Annual)</div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Particulars</th><th>Amount</th><th>Period</th></tr></thead>
+                  <tbody id="feeStructureTable"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-title">Pending Fee Accounts</div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Student</th><th>Class</th><th>Due</th><th>Status</th></tr></thead>
+                  <tbody id="pendingFeesTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TRANSPORT -->
+        <section class="view" id="view-transport">
+          <div class="page-header">
+            <div>
+              <h1>Transport</h1>
+              <p>Live bus status and routes</p>
+            </div>
+          </div>
+          <div class="panel" style="margin-bottom:16px">
+            <div class="bus-map" style="height:220px">
+              <div class="bus-route"></div>
+              <div class="bus-pin" style="left:58%">🚌</div>
+              <div class="bus-pin" style="left:28%;background:var(--success);animation-delay:0.5s">🚌</div>
+              <div class="bus-pin" style="left:78%;background:var(--warning);animation-delay:1s">🚌</div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Bus</th><th>Driver</th><th>Route</th><th>Students</th><th>ETA</th><th>Status</th><th>Phone</th></tr>
+                </thead>
+                <tbody id="busesTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- NOTICES -->
+        <section class="view" id="view-notices">
+          <div class="page-header">
+            <div>
+              <h1>Notices</h1>
+              <p>School-wide announcements</p>
+            </div>
+            <button class="btn btn-primary" id="addNoticeBtn">+ New Notice</button>
+          </div>
+          <div class="panel">
+            <ul class="notice-list" id="noticesFull"></ul>
+          </div>
+        </section>
+
+        <!-- REPORTS -->
+        <section class="view" id="view-reports">
+          <div class="page-header">
+            <div>
+              <h1>Reports</h1>
+              <p>Quick summary reports</p>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card"><div><div class="label">School Strength</div><div class="value">420</div><div class="sub muted">Students enrolled</div></div></div>
+            <div class="stat-card"><div><div class="label">Avg Attendance</div><div class="value">91%</div><div class="sub up">Above target</div></div></div>
+            <div class="stat-card"><div><div class="label">Avg Pass %</div><div class="value">93%</div><div class="sub up">All classes</div></div></div>
+            <div class="stat-card"><div><div class="label">Fee Recovery</div><div class="value">68%</div><div class="sub muted">This term</div></div></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Class-wise Snapshot</div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Class</th><th>Avg Marks</th><th>Pass %</th><th>Status</th></tr>
+                </thead>
+                <tbody id="reportsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="view" id="view-settings">
+          <div class="page-header">
+            <div>
+              <h1>Settings</h1>
+              <p>School profile and preferences</p>
+            </div>
+          </div>
+          <div class="panel" style="max-width:560px">
+            <div class="form-group">
+              <label>School Name</label>
+              <input type="text" class="form-control" value="Green Valley High School" />
+            </div>
+            <div class="form-group">
+              <label>Academic Session</label>
+              <input type="text" class="form-control" value="2025–26" />
+            </div>
+            <div class="form-group">
+              <label>Contact Email</label>
+              <input type="email" class="form-control" value="office@greenvalley.edu" />
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="text" class="form-control" value="+91 11 4567 8900" />
+            </div>
+            <button class="btn btn-primary" id="saveSettingsBtn">Save Changes</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Student Detail Modal -->
+  <div class="modal-backdrop" id="studentModal">
+    <div class="modal">
+      <h2 id="modalTitle">Student Profile</h2>
+      <div id="modalBody"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="closeModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

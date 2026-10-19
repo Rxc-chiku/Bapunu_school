@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SchoolTrack — Parent Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="portal-body">
+  <header class="portal-header">
+    <div class="portal-container">
+      <div class="row">
+        <div>
+          <p style="opacity:0.8;font-size:0.85rem;margin-bottom:4px" id="greetText">Good morning 👋</p>
+          <h1 id="headerTitle">Parent Portal</h1>
+          <p>Green Valley High School</p>
+        </div>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:#fff;border:none" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="portal-container">
+    <div class="profile-card">
+      <div class="avatar" id="studentAvatar">AS</div>
+      <div>
+        <strong style="font-size:1.05rem;color:var(--navy)" id="studentName">—</strong>
+        <div style="font-size:0.85rem;color:var(--text-muted)" id="studentMeta">—</div>
+        <span class="tag tag-green" style="margin-top:6px" id="todayStatus">Present Today</span>
+      </div>
+    </div>
+
+    <section class="portal-section active" id="sec-home">
+      <div class="quick-grid">
+        <button class="quick-card" data-page="attendance">
+          <div class="q-icon" style="background:var(--success-bg)">📅</div>
+          <strong>Attendance</strong>
+          <span id="qAtt">—</span>
+        </button>
+        <button class="quick-card" data-page="marks">
+          <div class="q-icon" style="background:var(--primary-light)">📊</div>
+          <strong>Exam Result</strong>
+          <span id="qMarks">—</span>
+        </button>
+        <button class="quick-card" data-page="fees">
+          <div class="q-icon" style="background:var(--warning-bg)">💰</div>
+          <strong>Fee Status</strong>
+          <span id="qFees">—</span>
+        </button>
+        <button class="quick-card" data-page="bus">
+          <div class="q-icon" style="background:#e0f2fe">🚌</div>
+          <strong>Bus Tracking</strong>
+          <span id="qBus">—</span>
+        </button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Recent Notices</div>
+        <ul class="notice-list" id="parentNotices"></ul>
+      </div>
+    </section>
+
+    <section class="portal-section" id="sec-attendance">
+      <h2 class="section-title">Attendance</h2>
+      <div class="panel" style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:14px">
+          <strong id="calMonthLabel"></strong>
+          <span class="tag tag-green" id="attMonthPct">—</span>
+        </div>
+        <div class="cal-grid" id="calHeads"></div>
+        <div class="cal-grid" id="calDays" style="margin-top:6px"></div>
+        <div class="legend" style="margin-top:16px">
+          <span class="legend-item"><span class="legend-dot" style="background:var(--success)"></span>Present</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--danger)"></span>Absent</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#94a3b8"></span>Holiday</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Recent Days</div>
+        <div id="attRecent"></div>
+      </div>
+    </section>
+
+    <section class="portal-section" id="sec-marks">
+      <h2 class="section-title">Exam Results</h2>
+      <div class="panel" style="margin-bottom:14px">
+        <div class="panel-title">Overall Performance</div>
+        <div class="chart-wrap" style="height:180px">
+          <canvas id="parentExamChart"></canvas>
+          <div class="chart-center-label">
+            <strong id="overallPct">0%</strong>
+            <span>Overall</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Subject-wise Marks</div>
+        <div id="parentSubjects"></div>
+      </div>
+    </section>
+
+    <section class="portal-section" id="sec-fees">
+      <h2 class="section-title">Fee Details</h2>
+      <div class="tabs">
+        <button type="button" class="active" data-tab="pending">Pending</button>
+        <button type="button" data-tab="history">History</button>
+      </div>
+      <div id="feePendingPane">
+        <div class="fee-total-box">
+          <div style="opacity:0.85;font-size:0.9rem">Total Due</div>
+          <div class="amount" id="feeTotalAmount">₹ 0</div>
+          <button class="btn" style="background:#fff;color:var(--primary);font-weight:700" id="payNowBtn">Pay Now</button>
+        </div>
+        <div class="panel">
+          <div id="feeBreakdown"></div>
+        </div>
+      </div>
+      <div id="feeHistoryPane" style="display:none">
+        <div class="panel">
+          <div id="feeHistory"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portal-section" id="sec-bus">
+      <h2 class="section-title">Bus Tracking</h2>
+      <div class="panel" id="busPanel"></div>
+    </section>
+
+    <section class="portal-section" id="sec-more">
+      <h2 class="section-title">More</h2>
+      <div class="panel" id="morePanel"></div>
+    </section>
+  </div>
+
+  <nav class="bottom-nav">
+    <button type="button" class="active" data-page="home"><span class="icon">🏠</span>Home</button>
+    <button type="button" data-page="attendance"><span class="icon">📅</span>Attendance</button>
+    <button type="button" data-page="marks"><span class="icon">📊</span>Marks</button>
+    <button type="button" data-page="fees"><span class="icon">💰</span>Fees</button>
+    <button type="button" data-page="more"><span class="icon">⋯</span>More</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/parent.js"></script>
+</body>
+</html>

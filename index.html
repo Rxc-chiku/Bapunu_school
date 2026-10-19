@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SchoolTrack — Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="login-logo">🎓</div>
+        <h1>SchoolTrack</h1>
+        <p>Green Valley High School</p>
+      </div>
+
+      <div class="login-tabs" role="tablist">
+        <button type="button" class="login-tab active" data-role="admin">Admin</button>
+        <button type="button" class="login-tab" data-role="teacher">Teacher</button>
+        <button type="button" class="login-tab" data-role="parent">Parent</button>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email / ID</label>
+          <input type="text" id="email" placeholder="admin@greenvalley.edu" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter password" required autocomplete="current-password" />
+        </div>
+        <p id="loginError" style="display:none;color:#dc2626;font-size:0.82rem;margin:-6px 0 12px;font-weight:600"></p>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+
+      <div class="login-hint" id="loginHint">
+        <strong>Admin:</strong> admin@greenvalley.edu
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script>
+    let role = 'admin';
+    const hints = {
+      admin: '<strong>Admin:</strong> admin@greenvalley.edu',
+      teacher: '<strong>Teacher example:</strong> sunita.rao@greenvalley.edu<br />Or: vikram.desai@greenvalley.edu',
+      parent: '<strong>Parent example:</strong> rajesh.sharma@email.com<br />Or: meera.patel@email.com',
+    };
+
+    document.querySelectorAll('.login-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        role = tab.dataset.role;
+        document.getElementById('loginHint').innerHTML = hints[role];
+        document.getElementById('loginError').style.display = 'none';
+        const email = document.getElementById('email');
+        if (role === 'admin') email.placeholder = 'admin@greenvalley.edu';
+        else if (role === 'teacher') email.placeholder = 'sunita.rao@greenvalley.edu';
+        else email.placeholder = 'rajesh.sharma@email.com';
+      });
+    });
+
+    function showError(msg) {
+      const el = document.getElementById('loginError');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      if (!password) {
+        showError('Please enter a password.');
+        return;
+      }
+
+      sessionStorage.clear();
+      sessionStorage.setItem('st_role', role);
+
+      if (role === 'admin') {
+        const ok = ['admin@greenvalley.edu', 'admin', 'office@greenvalley.edu']
+          .includes(email.toLowerCase());
+        if (!ok) {
+          showError('Admin ID not found. Use admin@greenvalley.edu');
+          return;
+        }
+        sessionStorage.setItem('st_user', email);
+        window.location.href = 'admin.html';
+        return;
+      }
+
+      if (role === 'teacher') {
+        const teacher = findTeacherByEmail(email);
+        if (!teacher) {
+          showError('Teacher not found. Try sunita.rao@greenvalley.edu');
+          return;
+        }
+        sessionStorage.setItem('st_teacher_id', teacher.id);
+        sessionStorage.setItem('st_user', teacher.email);
+        window.location.href = 'teacher.html';
+        return;
+      }
+
+      if (role === 'parent') {
+        const student = findStudentByEmail(email);
+        if (!student) {
+          showError('Parent email not found. Try rajesh.sharma@email.com');
+          return;
+        }
+        sessionStorage.setItem('st_student_id', student.id);
+        sessionStorage.setItem('st_user', student.email);
+        window.location.href = 'parent.html';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SchoolTrack — Teacher Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="portal-body">
+  <header class="portal-header">
+    <div class="portal-container">
+      <div class="row">
+        <div>
+          <p style="opacity:0.8;font-size:0.85rem;margin-bottom:4px">Welcome back</p>
+          <h1 id="teacherName">Teacher</h1>
+          <p id="teacherMeta">—</p>
+        </div>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:#fff;border:none" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="portal-container">
+    <!-- CLASS DASHBOARD -->
+    <section class="portal-section active" id="sec-home">
+      <div class="profile-card" style="margin-top:-24px;flex-direction:column;align-items:stretch">
+        <strong style="color:var(--navy);font-size:1.05rem;margin-bottom:12px" id="classTitle">My Class</strong>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+          <div style="background:var(--bg);padding:12px;border-radius:10px">
+            <div style="font-size:1.4rem;font-weight:800;color:var(--navy)" id="statTotal">32</div>
+            <div style="font-size:0.72rem;color:var(--text-muted)">Total</div>
+          </div>
+          <div style="background:var(--success-bg);padding:12px;border-radius:10px">
+            <div style="font-size:1.4rem;font-weight:800;color:var(--success)" id="statPresent">30</div>
+            <div style="font-size:0.72rem;color:var(--text-muted)">Present</div>
+          </div>
+          <div style="background:var(--danger-bg);padding:12px;border-radius:10px">
+            <div style="font-size:1.4rem;font-weight:800;color:var(--danger)" id="statAbsent">2</div>
+            <div style="font-size:0.72rem;color:var(--text-muted)">Absent</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-grid" style="margin-top:18px">
+        <button class="quick-card" data-page="attendance">
+          <div class="q-icon" style="background:var(--success-bg)">☑️</div>
+          <strong>Take Attendance</strong>
+          <span>Mark present / absent</span>
+        </button>
+        <button class="quick-card" data-page="marks">
+          <div class="q-icon" style="background:var(--primary-light)">✏️</div>
+          <strong>Enter Marks</strong>
+          <span>Unit Test scores</span>
+        </button>
+        <button class="quick-card" data-page="students">
+          <div class="q-icon" style="background:var(--warning-bg)">👨‍🎓</div>
+          <strong>View Students</strong>
+          <span>Class roster</span>
+        </button>
+        <button class="quick-card" data-page="notices">
+          <div class="q-icon" style="background:#e0f2fe">📢</div>
+          <strong>Notices</strong>
+          <span>Class announcements</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ATTENDANCE -->
+    <section class="portal-section" id="sec-attendance">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h2 class="section-title" style="margin:0">Mark Attendance</h2>
+        <button class="btn btn-sm btn-success" id="markAllPresent">Mark All Present</button>
+      </div>
+      <div class="panel">
+        <div id="teacherAttList"></div>
+        <button class="btn btn-primary btn-block" style="margin-top:16px" id="saveAttendance">Save Attendance</button>
+      </div>
+    </section>
+
+    <!-- MARKS -->
+    <section class="portal-section" id="sec-marks">
+      <h2 class="section-title">Enter Exam Marks</h2>
+      <div class="panel">
+        <div class="toolbar" style="margin-bottom:14px">
+          <select class="form-control" id="markSubject">
+            <option>Mathematics</option>
+            <option>English</option>
+            <option>Science</option>
+            <option>Hindi</option>
+          </select>
+          <select class="form-control" id="markExam">
+            <option>Unit Test 1</option>
+            <option>Unit Test 2</option>
+            <option>Mid Term</option>
+            <option>Final</option>
+          </select>
+        </div>
+        <div id="marksEntryList"></div>
+        <button class="btn btn-primary btn-block" style="margin-top:16px" id="saveMarks">Save Marks</button>
+      </div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section class="portal-section" id="sec-students">
+      <h2 class="section-title" id="rosterTitle">Students</h2>
+      <div class="panel">
+        <div id="classRoster"></div>
+      </div>
+    </section>
+
+    <!-- NOTICES -->
+    <section class="portal-section" id="sec-notices">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h2 class="section-title" style="margin:0">Class Notices</h2>
+        <button class="btn btn-sm btn-primary" id="createNotice">+ Create</button>
+      </div>
+      <div class="panel">
+        <ul class="notice-list" id="teacherNotices"></ul>
+      </div>
+    </section>
+
+    <!-- PROFILE (student detail) -->
+    <section class="portal-section" id="sec-profile">
+      <button class="btn btn-sm btn-outline" style="margin-bottom:12px" data-page="students">← Back</button>
+      <div class="panel" id="studentProfileBody"></div>
+    </section>
+  </div>
+
+  <nav class="bottom-nav">
+    <button type="button" class="active" data-page="home"><span class="icon">🏠</span>Home</button>
+    <button type="button" data-page="attendance"><span class="icon">☑️</span>Attendance</button>
+    <button type="button" data-page="marks"><span class="icon">✏️</span>Marks</button>
+    <button type="button" data-page="students"><span class="icon">👨‍🎓</span>Students</button>
+    <button type="button" data-page="notices"><span class="icon">📢</span>Notices</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/teacher.js"></script>
+</body>
+</html>
